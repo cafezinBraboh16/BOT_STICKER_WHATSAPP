@@ -202,28 +202,7 @@ module.exports = HandleMsg = async (pakforlay, message) => {
 
         //Islam Command
         //Media
-	case 'twimg':
-            if (args.length == 0) return pakforlay.reply(from, `Para baixar imagens do twitter \n digite: ${prefix} twimg [link_twitter]`, id)
-            const twimg = await rugaapi.twitimg(args[0])
-            await pakforlay.sendFileFromUrl(from, twimg, 'K', '', id)
-            .catch(() => {
-                pakforlay.reply(from, 'Ada yang Error!', id)
-            })
-        case 'twvid':
-            if (args.length == 0) return pakforlay.reply(from, `Para baixar vídeos do twitter \n digite: ${prefix} twvid [link_twitter]`, id)
-			await pakforlay.reply(from, `_Tunggu, sedang memproses perintah_`, id)
-            const twvid = await rugaapi.twitvid(args[0])
-            await pakforlay.sendFileFromUrl(from, twvid, 'K', '', id)
-            .catch(() => {
-                pakforlay.reply(from, 'Ada yang Error!', id)
-            })
-		case 'cekjodoh':
-			if (args.length !== 2) return pakforlay.reply(from, `Untuk mengecek jodoh melalui nama\nketik: ${prefix}cekjodoh nama pasangan\n\ncontoh: ${prefix}cekjodoh aku kamu\n\nhanya bisa pakai nama panggilan (satu kata)`)
-			rugaapi.cekjodoh(args[0],args[1])
-			.then(async(res) => {
-				await pakforlay.sendFileFromUrl(from, `${res.link}`, '', `${res.text}`, id)
-			})
-			break
+	
 			
         // Random Kata
         
