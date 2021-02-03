@@ -2,65 +2,6 @@
 <img src="https://static.vakinha.com.br/uploads/vakinha/image/481590/tenor.gif?ims=700x410" width="700" height="410"/>
 </p>
 <div align="center">
-<details>
-<summary>🥟 Help me!</summary>
- 
- [Saweria](https://saweria.co/pakforlay)
- 
-</details>
-
-THANKS BANG ARUGAZ ATAS API NYA, DALAM WAKTU SINGKAT INSHAALLAH API SAYA SENDIRI AKAN SAYA UPDATE TERUS
-<p align="center"><a href="https://arugaz.herokuapp.com/" target="_blank">API ARUGAZ</a>.</p>
-<p align="center"><a href="https://yaelahdo.herokuapp.com/" target="_blank">API PakForlay</a>.</p>
-</div>
-
-## NOMOR WHATSAPP BOT
-+6285864456465
-
-## CHANGE LOG AT BOTTOM
-
-## Getting Started
-This project require NodeJS v12.
-
-### Install
-Clone this project
-
-```bash
-> git clone https://github.com/pakforlay/whatsapp-botz.git
-> cd whatsapp-bot
-```
-
-Install the dependencies:
-
-```bash
-> npm install 
-> npm install gify-cli -g
-```
-
-### Usage
-Run the Whatsapp bot
-
-```bash
-> npm start
-```
-
-after running it you need to scan the qr
-
-### Information
-- Change ownerNumber on [this section](https://github.com/pakforlay/whatsapp-botz/blob/master/settings/setting.json#L2)
-- Change groupLimit on [this section](https://github.com/pakforlay/whatsapp-botz/blob/master/settings/setting.json#L3)
-- Change memberLimit on [this section](https://github.com/pakforlay/whatsapp-botz/blob/master/settings/setting.json#L4)
-- Change prefix on [this section](https://github.com/pakforlay/whatsapp-botz/blob/master/settings/setting.json#L5)
-- Change menu on [this section](https://github.com/pakforlay/whatsapp-botz/blob/master/lib/menu.js#L32)
-- Add kata kasar on [this section](https://github.com/pakforlay/whatsapp-botz/blob/master/lib/kataKotor.js#L8)
-- Change all apiKey on [this section](https://github.com/pakforlay/whatsapp-botz/blob/master/settings/api.json)
-- Get Api NoBackground on [this website](https://www.remove.bg/)
-- Get Api ScreenShot on [this website](https://apiflash.com/)
-- Get Api Simi-simi on [this website](https://workshop.simsimi.com/en/), masih limit api simi-siminya? [cek ini](https://github.com/pakforlay/whatsapp-bot/issues/38#issuecomment-726981060)
-
----
-
-## Features
 
 | 18+ |Yes|
 | ------------- | ------------- |
