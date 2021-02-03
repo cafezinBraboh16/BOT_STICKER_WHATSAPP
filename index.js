@@ -6,7 +6,7 @@ const HandleMsg = require('./HandleMsg')
 
 const start = (pakforlay = new Client()) => {
     console.log(color(figlet.textSync('----------------', { horizontalLayout: 'default' })))
-    console.log(color(figlet.textSync('PakForlay BOT', { font: 'Ghost', horizontalLayout: 'default' })))
+    console.log(color(figlet.textSync('CAFÉZIN', { font: 'Ghost', horizontalLayout: 'default' })))
     console.log(color(figlet.textSync('----------------', { horizontalLayout: 'default' })))
     console.log(color('[DEV]'), color('pakforlay', 'yellow'))
     console.log(color('[~>>]'), color('BOT Started!', 'green'))
