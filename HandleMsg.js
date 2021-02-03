@@ -197,7 +197,7 @@ module.exports = HandleMsg = async (pakforlay, message) => {
                 const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
                 pakforlay.sendImageAsSticker(from, imageBase64)
                 .then(() => {
-                    pakforlay.reply(from, 'Here\'s your sticker')
+                    pakforlay.reply(from, 'Aqui está seu adesivo')
                     console.log(`Sticker Processed for ${processTime(t, moment())} Second`)
                 })
             } else if (args[0] === 'nobg') {
@@ -207,22 +207,21 @@ module.exports = HandleMsg = async (pakforlay, message) => {
                     var imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
                     var base64img = imageBase64
                     var outFile = './media/noBg.png'
-		            // kamu dapat mengambil api key dari website remove.bg dan ubahnya difolder settings/api.json
                     var result = await removeBackgroundFromImageBase64({ base64img, apiKey: apiNoBg, size: 'auto', type: 'auto', outFile })
                     await fs.writeFile(outFile, result.base64img)
                     await pakforlay.sendImageAsSticker(from, `data:${mimetype};base64,${result.base64img}`)
                     } catch(err) {
                     console.log(err)
-	   	            await pakforlay.reply(from, 'Maaf batas penggunaan hari ini sudah mencapai maksimal', id)
+	   	            await pakforlay.reply(from, 'Desculpe, o limite de uso de hoje atingiu o máximo', id)
                     }
                 }
             } else if (args.length === 1) {
                 if (!isUrl(url)) { await pakforlay.reply(from, 'Maaf, link yang kamu kirim tidak valid.', id) }
                 pakforlay.sendStickerfromUrl(from, url).then((r) => (!r && r !== undefined)
-                    ? pakforlay.sendText(from, 'Maaf, link yang kamu kirim tidak memuat gambar.')
-                    : pakforlay.reply(from, 'Here\'s your sticker')).then(() => console.log(`Sticker Processed for ${processTime(t, moment())} Second`))
+                    ? pakforlay.sendText(from, 'Desculpe, o link que você enviou não contém uma imagem.')
+                    : pakforlay.reply(from, 'Aqui está seu adesivo')).then(() => console.log(`Sticker Processed for ${processTime(t, moment())} Second`))
             } else {
-                await pakforlay.reply(from, `Tidak ada gambar! Untuk menggunakan ${prefix}sticker\n\n\nKirim gambar dengan caption\n${prefix}sticker <biasa>\n${prefix}sticker nobg <tanpa background>\n\natau Kirim pesan dengan\n${prefix}sticker <link_gambar>`, id)
+                await pakforlay.reply(from, `Esta faltando mandar uma foto seu bct!`, id)
             }
             break
         case 'stickergif':
@@ -230,10 +229,10 @@ module.exports = HandleMsg = async (pakforlay, message) => {
             if (isMedia || isQuotedVideo) {
                 if (mimetype === 'video/mp4' && message.duration < 10 || mimetype === 'image/gif' && message.duration < 10) {
                     var mediaData = await decryptMedia(message, uaOverride)
-                    pakforlay.reply(from, '[WAIT] Sedang di proses⏳ silahkan tunggu ± 1 min!', id)
+                    pakforlay.reply(from, '[WAIT] Em andamento⏳ aguarde ± 1 min!', id)
                     var filename = `./media/stickergif.${mimetype.split('/')[1]}`
                     await fs.writeFileSync(filename, mediaData)
-                    await exec(`gify ${filename} ./media/stickergf.gif --fps=30 --scale=240:240`, async function (error, stdout, stderr) {
+                    await exec(`gify ${filename} ./media/stickergf.gif --fps=60 --scale=240:240`, async function (error, stdout, stderr) {
                         var gif = await fs.readFileSync('./media/stickergf.gif', { encoding: "base64" })
                         await pakforlay.sendImageAsSticker(from, `data:image/gif;base64,${gif.toString('base64')}`)
                         .catch(() => {
@@ -241,10 +240,10 @@ module.exports = HandleMsg = async (pakforlay, message) => {
                         })
                     })
                   } else {
-                    pakforlay.reply(from, `[❗] Kirim gif dengan caption *${prefix}stickergif* max 10 sec!`, id)
+                    pakforlay.reply(from, `Video De Até 10S Macaco!`, id)
                    }
                 } else {
-		    pakforlay.reply(from, `[❗] Kirim gif dengan caption *${prefix}stickergif*`, id)
+		    pakforlay.reply(from, `Sua Puta!, Cade a porra do video para fazer a figurinha!`, id)
 	        }
             break
         case 'stikergiphy':
@@ -313,228 +312,33 @@ module.exports = HandleMsg = async (pakforlay, message) => {
                 pakforlay.reply(from, `Pemakaian ${prefix}quotemaker |isi quote|author|theme\n\ncontoh: ${prefix}quotemaker |aku sayang kamu|-pakforlay|random\n\nuntuk theme nya pakai random ya kak..`)
             }
             break
-        case 'nulis':
-            if (args.length == 0) return pakforlay.reply(from, `Membuat bot menulis teks yang dikirim menjadi gambar\nPemakaian: ${prefix}nulis [teks]\n\ncontoh: ${prefix}nulis i love you 3000`, id)
+        case 'caderno':
+            if (args.length == 0) return pakforlay.reply(from, `Mande #caderno e escreva seu texto!`, id)
             const nulisq = body.slice(7)
             const nulisp = await rugaapi.tulis(nulisq)
-            await pakforlay.sendImage(from, `${nulisp}`, '', 'Nih...', id)
+            await pakforlay.sendImage(from, `${nulisp}`, '', 'AQUI VADIA!', id)
             .catch(() => {
-                pakforlay.reply(from, 'Ada yang Error!', id)
+                pakforlay.reply(from, 'ERRO FDP, SERVIDOR TA OFF!', id)
             })
             break
 
         //Islam Command
-        case 'listsurah':
-            try {
-                axios.get('https://raw.githubusercontent.com/ArugaZ/grabbed-results/main/islam/surah.json')
-                .then((response) => {
-                    let hehex = '╔══✪〘 List Surah 〙✪══\n'
-                    for (let i = 0; i < response.data.data.length; i++) {
-                        hehex += '╠➥ '
-                        hehex += response.data.data[i].name.transliteration.id.toLowerCase() + '\n'
-                            }
-                        hehex += '╚═〘 *Yaelahdo  B O T* 〙'
-                    pakforlay.reply(from, hehex, id)
-                })
-            } catch(err) {
-                pakforlay.reply(from, err, id)
-            }
-            break
-        case 'infosurah':
-            if (args.length == 0) return pakforlay.reply(from, `*_${prefix}infosurah <nama surah>_*\nMenampilkan informasi lengkap mengenai surah tertentu. Contoh penggunan: ${prefix}infosurah al-baqarah`, message.id)
-                var responseh = await axios.get('https://raw.githubusercontent.com/ArugaZ/grabbed-results/main/islam/surah.json')
-                var { data } = responseh.data
-                var idx = data.findIndex(function(post, index) {
-                  if((post.name.transliteration.id.toLowerCase() == args[0].toLowerCase())||(post.name.transliteration.en.toLowerCase() == args[0].toLowerCase()))
-                    return true;
-                });
-                var pesan = ""
-                pesan = pesan + "Nama : "+ data[idx].name.transliteration.id + "\n" + "Asma : " +data[idx].name.short+"\n"+"Arti : "+data[idx].name.translation.id+"\n"+"Jumlah ayat : "+data[idx].numberOfVerses+"\n"+"Nomor surah : "+data[idx].number+"\n"+"Jenis : "+data[idx].revelation.id+"\n"+"Keterangan : "+data[idx].tafsir.id
-                pakforlay.reply(from, pesan, message.id)
-              break
-        case 'surah':
-            if (args.length == 0) return pakforlay.reply(from, `*_${prefix}surah <nama surah> <ayat>_*\nMenampilkan ayat Al-Quran tertentu beserta terjemahannya dalam bahasa Indonesia. Contoh penggunaan : ${prefix}surah al-baqarah 1\n\n*_${prefix}surah <nama surah> <ayat> en/id_*\nMenampilkan ayat Al-Quran tertentu beserta terjemahannya dalam bahasa Inggris / Indonesia. Contoh penggunaan : ${prefix}surah al-baqarah 1 id`, message.id)
-                var responseh = await axios.get('https://raw.githubusercontent.com/ArugaZ/grabbed-results/main/islam/surah.json')
-                var { data } = responseh.data
-                var idx = data.findIndex(function(post, index) {
-                  if((post.name.transliteration.id.toLowerCase() == args[0].toLowerCase())||(post.name.transliteration.en.toLowerCase() == args[0].toLowerCase()))
-                    return true;
-                });
-                nmr = data[idx].number
-                if(!isNaN(nmr)) {
-                  var responseh2 = await axios.get('https://api.quran.sutanlab.id/surah/'+nmr+"/"+args[1])
-                  var {data} = responseh2.data
-                  var last = function last(array, n) {
-                    if (array == null) return void 0;
-                    if (n == null) return array[array.length - 1];
-                    return array.slice(Math.max(array.length - n, 0));
-                  };
-                  bhs = last(args)
-                  pesan = ""
-                  pesan = pesan + data.text.arab + "\n\n"
-                  if(bhs == "en") {
-                    pesan = pesan + data.translation.en
-                  } else {
-                    pesan = pesan + data.translation.id
-                  }
-                  pesan = pesan + "\n\n(Q.S. "+data.surah.name.transliteration.id+":"+args[1]+")"
-                  pakforlay.reply(from, pesan, message.id)
-                }
-              break
-        case 'tafsir':
-            if (args.length == 0) return pakforlay.reply(from, `*_${prefix}tafsir <nama surah> <ayat>_*\nMenampilkan ayat Al-Quran tertentu beserta terjemahan dan tafsirnya dalam bahasa Indonesia. Contoh penggunaan : ${prefix}tafsir al-baqarah 1`, message.id)
-                var responsh = await axios.get('https://raw.githubusercontent.com/ArugaZ/grabbed-results/main/islam/surah.json')
-                var {data} = responsh.data
-                var idx = data.findIndex(function(post, index) {
-                  if((post.name.transliteration.id.toLowerCase() == args[0].toLowerCase())||(post.name.transliteration.en.toLowerCase() == args[0].toLowerCase()))
-                    return true;
-                });
-                nmr = data[idx].number
-                if(!isNaN(nmr)) {
-                  var responsih = await axios.get('https://api.quran.sutanlab.id/surah/'+nmr+"/"+args[1])
-                  var {data} = responsih.data
-                  pesan = ""
-                  pesan = pesan + "Tafsir Q.S. "+data.surah.name.transliteration.id+":"+args[1]+"\n\n"
-                  pesan = pesan + data.text.arab + "\n\n"
-                  pesan = pesan + "_" + data.translation.id + "_" + "\n\n" +data.tafsir.id.long
-                  pakforlay.reply(from, pesan, message.id)
-              }
-              break
-        case 'alaudio':
-            if (args.length == 0) return pakforlay.reply(from, `*_${prefix}ALaudio <nama surah>_*\nMenampilkan tautan dari audio surah tertentu. Contoh penggunaan : ${prefix}ALaudio al-fatihah\n\n*_${prefix}ALaudio <nama surah> <ayat>_*\nMengirim audio surah dan ayat tertentu beserta terjemahannya dalam bahasa Indonesia. Contoh penggunaan : ${prefix}ALaudio al-fatihah 1\n\n*_${prefix}ALaudio <nama surah> <ayat> en_*\nMengirim audio surah dan ayat tertentu beserta terjemahannya dalam bahasa Inggris. Contoh penggunaan : ${prefix}ALaudio al-fatihah 1 en`, message.id)
-              ayat = "ayat"
-              bhs = ""
-                var responseh = await axios.get('https://raw.githubusercontent.com/ArugaZ/grabbed-results/main/islam/surah.json')
-                var surah = responseh.data
-                var idx = surah.data.findIndex(function(post, index) {
-                  if((post.name.transliteration.id.toLowerCase() == args[0].toLowerCase())||(post.name.transliteration.en.toLowerCase() == args[0].toLowerCase()))
-                    return true;
-                });
-                nmr = surah.data[idx].number
-                if(!isNaN(nmr)) {
-                  if(args.length > 2) {
-                    ayat = args[1]
-                  }
-                  if (args.length == 2) {
-                    var last = function last(array, n) {
-                      if (array == null) return void 0;
-                      if (n == null) return array[array.length - 1];
-                      return array.slice(Math.max(array.length - n, 0));
-                    };
-                    ayat = last(args)
-                  } 
-                  pesan = ""
-                  if(isNaN(ayat)) {
-                    var responsih2 = await axios.get('https://raw.githubusercontent.com/ArugaZ/grabbed-results/main/islam/surah/'+nmr+'.json')
-                    var {name, name_translations, number_of_ayah, number_of_surah,  recitations} = responsih2.data
-                    pesan = pesan + "Audio Quran Surah ke-"+number_of_surah+" "+name+" ("+name_translations.ar+") "+ "dengan jumlah "+ number_of_ayah+" ayat\n"
-                    pesan = pesan + "Dilantunkan oleh "+recitations[0].name+" : "+recitations[0].audio_url+"\n"
-                    pesan = pesan + "Dilantunkan oleh "+recitations[1].name+" : "+recitations[1].audio_url+"\n"
-                    pesan = pesan + "Dilantunkan oleh "+recitations[2].name+" : "+recitations[2].audio_url+"\n"
-                    pakforlay.reply(from, pesan, message.id)
-                  } else {
-                    var responsih2 = await axios.get('https://api.quran.sutanlab.id/surah/'+nmr+"/"+ayat)
-                    var {data} = responsih2.data
-                    var last = function last(array, n) {
-                      if (array == null) return void 0;
-                      if (n == null) return array[array.length - 1];
-                      return array.slice(Math.max(array.length - n, 0));
-                    };
-                    bhs = last(args)
-                    pesan = ""
-                    pesan = pesan + data.text.arab + "\n\n"
-                    if(bhs == "en") {
-                      pesan = pesan + data.translation.en
-                    } else {
-                      pesan = pesan + data.translation.id
-                    }
-                    pesan = pesan + "\n\n(Q.S. "+data.surah.name.transliteration.id+":"+args[1]+")"
-                    await pakforlay.sendFileFromUrl(from, data.audio.secondary[0])
-                    await pakforlay.reply(from, pesan, message.id)
-                  }
-              }
-              break
-        case 'jsolat':
-            if (args.length == 0) return pakforlay.reply(from, `Untuk melihat jadwal solat dari setiap daerah yang ada\nketik: ${prefix}jsolat [daerah]\n\nuntuk list daerah yang ada\nketik: ${prefix}daerah`, id)
-            const solatx = body.slice(8)
-            const solatj = await rugaapi.jadwaldaerah(solatx)
-            await pakforlay.reply(from, solatj, id)
-            .catch(() => {
-                pakforlay.reply(from, 'Sudah input daerah yang ada dilist?', id)
-            })
-            break
-        case 'daerah':
-            const daerahq = await rugaapi.daerah()
-            await pakforlay.reply(from, daerahq, id)
-            .catch(() => {
-                pakforlay.reply(from, 'Ada yang Error!', id)
-            })
-            break
         //Media
 	case 'twimg':
-            if (args.length == 0) return pakforlay.reply(from, `Untuk mendownload gambar dari twitter\nketik: ${prefix}twimg [link_twitter]`, id)
+            if (args.length == 0) return pakforlay.reply(from, `Para baixar imagens do twitter \n digite: ${prefix} twimg [link_twitter]`, id)
             const twimg = await rugaapi.twitimg(args[0])
-            await pakforlay.sendFileFromUrl(from, twimg, 'Sukses mengunduh Foto Twitter Menggunakan Bot WhatsApp PakForlay', '', id)
+            await pakforlay.sendFileFromUrl(from, twimg, 'K', '', id)
             .catch(() => {
                 pakforlay.reply(from, 'Ada yang Error!', id)
             })
         case 'twvid':
-            if (args.length == 0) return pakforlay.reply(from, `Untuk mendownload video dari twitter\nketik: ${prefix}twvid [link_twitter]`, id)
+            if (args.length == 0) return pakforlay.reply(from, `Para baixar vídeos do twitter \n digite: ${prefix} twvid [link_twitter]`, id)
 			await pakforlay.reply(from, `_Tunggu, sedang memproses perintah_`, id)
             const twvid = await rugaapi.twitvid(args[0])
-            await pakforlay.sendFileFromUrl(from, twvid, 'Sukses mengunduh Video Twitter Menggunakan Bot WhatsApp PakForlay', '', id)
+            await pakforlay.sendFileFromUrl(from, twvid, 'K', '', id)
             .catch(() => {
                 pakforlay.reply(from, 'Ada yang Error!', id)
             })
-        case 'insta':
-		case 'ig':
-            if (args.length == 0) return pakforlay.reply(from, `Untuk mendownload gambar atau video dari instagram\nketik: ${prefix}insta [link_ig]`, id)
-			await pakforlay.reply(from, `_Tunggu, sedang memproses perintah_`, id)
-            const instag = await rugaapi.insta(args[0])
-            await pakforlay.sendFileFromUrl(from, instag, 'Sukses mengunduh Foto/Video Instagram Menggunakan Bot WhatsApp PakForlay', '', id)
-            .catch(() => {
-                pakforlay.reply(from, 'Ada yang Error!', id)
-            })
-            break
-		case 'tiktok':
-            if (args.length == 0) return pakforlay.reply(from, `Untuk mendownload video tiktok\nketik: ${prefix}tiktok [link_tik]`, id)
-			await pakforlay.reply(from, `_Tunggu, sedang memproses perintah_`, id)
-            const vidTiktok = await rugaapi.tiktok(args[0])
-			const infoTiktok = await rugaapi.tiktokInfo(args[0])
-			await pakforlay.sendFileFromUrl(from, vidTiktok, '', '', id)
-			await pakforlay.sendText(from, infoTiktok, '', '', id)
-            .catch(() => {
-                pakforlay.reply(from, 'Ada yang Error!', id)
-            })
-            break
-        case 'ytmus':
-            if (args.length == 0) return pakforlay.reply(from, `Untuk mendownload video youtube\nketik: ${prefix}ytmus [link_youtube]`, id)
-            await pakforlay.reply(from, `_Tunggu, sedang memproses perintah_`, id)
-            const ytmus = await rugaapi.ytmp3(args[0])
-            await pakforlay.sendFileFromUrl(from, ytmus, '', '', id)
-			await pakforlay.reply(from, `_Sukses Mengunduh Audio Dari Youtube._`, id)
-            .catch(() => {
-                pakforlay.reply(from, 'Ada yang Error!', id)
-            })
-            break
-		case 'ytvid':
-            if (args.length == 0) return pakforlay.reply(from, `Untuk mendownload video youtube\nketik: ${prefix}ytvid [link_youtube]`, id)
-			await pakforlay.reply(from, `_Tunggu, sedang memproses perintah_`, id)
-            const youtube = await rugaapi.ytvid(args[0])
-            await pakforlay.sendFileFromUrl(from, youtube, `Sukses mengunduh Video Youtube Menggunakan Bot WhatsApp PakForlay`, id)
-            .catch(() => {
-                pakforlay.reply(from, 'Ada yang Error!, mungkin bisa kirim ulang perintah.', id)
-            })
-            break
-			
-		//Primbon Menu
-		case 'artinama':
-			if (args.length == 0) return pakforlay.reply(from, `Untuk mengetahui arti nama seseorang\nketik ${prefix}artinama Namanya`, id)
-            rugaapi.artinama(body.slice(10))
-			.then(async(res) => {
-				await pakforlay.reply(from, `Arti : ${res}`, id)
-			})
-			break
 		case 'cekjodoh':
 			if (args.length !== 2) return pakforlay.reply(from, `Untuk mengecek jodoh melalui nama\nketik: ${prefix}cekjodoh nama pasangan\n\ncontoh: ${prefix}cekjodoh aku kamu\n\nhanya bisa pakai nama panggilan (satu kata)`)
 			rugaapi.cekjodoh(args[0],args[1])
@@ -870,95 +674,6 @@ module.exports = HandleMsg = async (pakforlay, message) => {
 			break
 
         // Group Commands (group admin only)
-	    case 'add':
-            if (!isGroupMsg) return pakforlay.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
-            if (!isGroupAdmins) return pakforlay.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup!', id)
-            if (!isBotGroupAdmins) return pakforlay.reply(from, 'Gagal, silahkan tambahkan bot sebagai admin grup!', id)
-	        if (args.length !== 1) return pakforlay.reply(from, `Untuk menggunakan ${prefix}add\nPenggunaan: ${prefix}add <nomor>\ncontoh: ${prefix}add 628xxx`, id)
-                try {
-                    await pakforlay.addParticipant(from,`${args[0]}@c.us`)
-		            .then(() => pakforlay.reply(from, 'Hai selamat datang', id))
-                } catch {
-                    pakforlay.reply(from, 'Tidak dapat menambahkan target', id)
-                }
-            break
-        case 'kick':
-            if (!isGroupMsg) return pakforlay.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
-            if (!isGroupAdmins) return pakforlay.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup!', id)
-            if (!isBotGroupAdmins) return pakforlay.reply(from, 'Gagal, silahkan tambahkan bot sebagai admin grup!', id)
-            if (mentionedJidList.length === 0) return pakforlay.reply(from, 'Maaf, format pesan salah.\nSilahkan tag satu atau lebih orang yang akan dikeluarkan', id)
-            if (mentionedJidList[0] === botNumber) return await pakforlay.reply(from, 'Maaf, format pesan salah.\nTidak dapat mengeluarkan akun bot sendiri', id)
-            await pakforlay.sendTextWithMentions(from, `Request diterima, mengeluarkan:\n${mentionedJidList.map(x => `@${x.replace('@c.us', '')}`).join('\n')}`)
-            for (let i = 0; i < mentionedJidList.length; i++) {
-                if (groupAdmins.includes(mentionedJidList[i])) return await pakforlay.sendText(from, 'Gagal, kamu tidak bisa mengeluarkan admin grup.')
-                await pakforlay.removeParticipant(groupId, mentionedJidList[i])
-            }
-            break
-        case 'promote':
-            if (!isGroupMsg) return pakforlay.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
-            if (!isGroupAdmins) return pakforlay.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup!', id)
-            if (!isBotGroupAdmins) return pakforlay.reply(from, 'Gagal, silahkan tambahkan bot sebagai admin grup!', id)
-            if (mentionedJidList.length !== 1) return pakforlay.reply(from, 'Maaf, hanya bisa mempromote 1 user', id)
-            if (groupAdmins.includes(mentionedJidList[0])) return await pakforlay.reply(from, 'Maaf, user tersebut sudah menjadi admin.', id)
-            if (mentionedJidList[0] === botNumber) return await pakforlay.reply(from, 'Maaf, format pesan salah.\nTidak dapat mempromote akun bot sendiri', id)
-            await pakforlay.promoteParticipant(groupId, mentionedJidList[0])
-            await pakforlay.sendTextWithMentions(from, `Request diterima, menambahkan @${mentionedJidList[0].replace('@c.us', '')} sebagai admin.`)
-            break
-        case 'demote':
-            if (!isGroupMsg) return pakforlay.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
-            if (!isGroupAdmins) return pakforlay.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup!', id)
-            if (!isBotGroupAdmins) return pakforlay.reply(from, 'Gagal, silahkan tambahkan bot sebagai admin grup!', id)
-            if (mentionedJidList.length !== 1) return pakforlay.reply(from, 'Maaf, hanya bisa mendemote 1 user', id)
-            if (!groupAdmins.includes(mentionedJidList[0])) return await pakforlay.reply(from, 'Maaf, user tersebut belum menjadi admin.', id)
-            if (mentionedJidList[0] === botNumber) return await pakforlay.reply(from, 'Maaf, format pesan salah.\nTidak dapat mendemote akun bot sendiri', id)
-            await pakforlay.demoteParticipant(groupId, mentionedJidList[0])
-            await pakforlay.sendTextWithMentions(from, `Request diterima, menghapus jabatan @${mentionedJidList[0].replace('@c.us', '')}.`)
-            break
-        case 'bye':
-            if (!isGroupMsg) return pakforlay.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
-            if (!isGroupAdmins) return pakforlay.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup!', id)
-            pakforlay.sendText(from, 'Good bye... ( ⇀‸↼‶ )').then(() => pakforlay.leaveGroup(groupId))
-            break
-        case 'del':
-            if (!isGroupAdmins) return pakforlay.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup!', id)
-            if (!quotedMsg) return pakforlay.reply(from, `Maaf, format pesan salah silahkan.\nReply pesan bot dengan caption ${prefix}del`, id)
-            if (!quotedMsgObj.fromMe) return pakforlay.reply(from, `Maaf, format pesan salah silahkan.\nReply pesan bot dengan caption ${prefix}del`, id)
-            pakforlay.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
-            break
-        case 'tagall':
-        case 'everyone':
-            if (!isGroupMsg) return pakforlay.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
-            if (!isGroupAdmins) return pakforlay.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup!', id)
-            const groupMem = await pakforlay.getGroupMembers(groupId)
-            let hehex = '╔══✪〘 Mention All 〙✪══\n'
-            for (let i = 0; i < groupMem.length; i++) {
-                hehex += '╠➥'
-                hehex += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`
-            }
-            hehex += '╚═〘 *Yaelahdo  B O T* 〙'
-            await pakforlay.sendTextWithMentions(from, hehex)
-            break
-	/*	case 'simisimi':
-			if (!isGroupMsg) return pakforlay.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
-			pakforlay.reply(from, `Untuk mengaktifkan simi-simi pada Group Chat\n\nPenggunaan\n${prefix}simi on --mengaktifkan\n${prefix}simi off --nonaktifkan\n`, id)
-			break
-		case 'simi':
-			if (!isGroupMsg) return pakforlay.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
-            if (!isGroupAdmins) return pakforlay.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup!', id)
-			if (args.length !== 1) return pakforlay.reply(from, `Untuk mengaktifkan simi-simi pada Group Chat\n\nPenggunaan\n${prefix}simi on --mengaktifkan\n${prefix}simi off --nonaktifkan\n`, id)
-			if (args[0] == 'on') {
-				simi.push(chatId)
-				fs.writeFileSync('./settings/simi.json', JSON.stringify(simi))
-                pakforlay.reply(from, 'Mengaktifkan bot simi-simi!', id)
-			} else if (args[0] == 'off') {
-				let inxx = simi.indexOf(chatId)
-				simi.splice(inxx, 1)
-				fs.writeFileSync('./settings/simi.json', JSON.stringify(simi))
-				pakforlay.reply(from, 'Menonaktifkan bot simi-simi!', id)
-			} else {
-				pakforlay.reply(from, `Untuk mengaktifkan simi-simi pada Group Chat\n\nPenggunaan\n${prefix}simi on --mengaktifkan\n${prefix}simi off --nonaktifkan\n`, id)
-			}
-			break */
 		case 'katakasar':
 			if (!isGroupMsg) return pakforlay.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup!', id)
 			pakforlay.reply(from, `Untuk mengaktifkan Fitur Kata Kasar pada Group Chat\n\napasih itu? fitur apabila seseorang mengucapkan kata kasar akan mendapatkan denda\n\nPenggunaan\n${prefix}kasar on --mengaktifkan\n${prefix}kasar off --nonaktifkan\n\n${prefix}reset --reset jumlah denda`, id)
