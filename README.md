@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://static.vakinha.com.br/uploads/vakinha/image/481590/tenor.gif?ims=700x410" width="200" height="200"/>
+<img src="https://static.vakinha.com.br/uploads/vakinha/image/481590/tenor.gif?ims=700x410" width="300" height="300"/>
 </p>
 <div align="center">
 <details>
