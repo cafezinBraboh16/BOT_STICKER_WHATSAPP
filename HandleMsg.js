@@ -190,6 +190,24 @@ module.exports = HandleMsg = async (pakforlay, message) => {
 		    pakforlay.reply(from, `Sua Puta!, Cade a porra do video para fazer a figurinha!`, id)
 	        }
             break
+	    case 'ttp1'
+	    pakforlay.sendText(from, `ESSE COMANDO É PREMIUM PARA ESSE BOT`)
+            break
+	     case 'ttp2'
+	    pakforlay.sendText(from, `ESSE COMANDO É PREMIUM PARA ESSE BOT`)
+            break
+	    case 'ttp3'
+	    pakforlay.sendText(from, `ESSE COMANDO É PREMIUM PARA ESSE BOT`)
+            break
+	     case 'ttp4'
+	    pakforlay.sendText(from, `ESSE COMANDO É PREMIUM PARA ESSE BOT`)
+            break
+	    case 'ttp5'
+	    pakforlay.sendText(from, `ESSE COMANDO É PREMIUM PARA ESSE BOT`)
+            break
+	    case 'xvideos'
+	    pakforlay.sendText(from, `ESSE COMANDO É PREMIUM PARA ESSE BOT`)
+            break
         case 'caderno':
             if (args.length == 0) return pakforlay.reply(from, `Mande #caderno e escreva seu texto!`, id)
             const nulisq = body.slice(7)
@@ -197,7 +215,7 @@ module.exports = HandleMsg = async (pakforlay, message) => {
             await pakforlay.sendImage(from, `${nulisp}`, '', 'AQUI VADIA!', id)
             .catch(() => {
                 pakforlay.reply(from, 'ERRO FDP, SERVIDOR TA OFF!', id)
-            })
+            }
             break
 
         //Islam Command
