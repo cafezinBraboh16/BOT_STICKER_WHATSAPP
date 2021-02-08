@@ -6,15 +6,15 @@ const HandleMsg = require('./HandleMsg')
 
 const start = (pakforlay = new Client()) => {
     console.log(color(figlet.textSync('----------------', { horizontalLayout: 'default' })))
-    console.log(color(figlet.textSync('CAFÉZIN', { font: 'Ghost', horizontalLayout: 'default' })))
+    console.log(color(figlet.textSync('INDEXXX', { font: 'Ghost', horizontalLayout: 'default' })))
     console.log(color(figlet.textSync('----------------', { horizontalLayout: 'default' })))
     console.log(color('[DEV]'), color('pakforlay', 'yellow'))
-    console.log(color('[~>>]'), color('BOT Started!', 'green'))
+    console.log(color('[~>>]'), color('INICIADO!', 'green'))
 
     // Mempertahankan sesi agar tetap nyala
     pakforlay.onStateChanged((state) => {
         console.log(color('[~>>]', 'red'), state)
-        if (state === 'CONFLICT' || state === 'UNLAUNCHED') pakforlay.forceRefocus()
+        if (state === 'CONECTADO' || state === 'PQP TOMA NO CU, (DESCONECTADO)') pakforlay.forceRefocus()
     })
 
     // ketika bot diinvite ke dalam group
@@ -22,14 +22,14 @@ const start = (pakforlay = new Client()) => {
 	const groups = await pakforlay.getAllGroups()
 	// kondisi ketika batas group bot telah tercapai,ubah di file settings/setting.json
 	if (groups.length > groupLimit) {
-	await pakforlay.sendText(chat.id, `Sorry, the group on this bot is full\nMax Group is: ${groupLimit}`).then(() => {
+	await pakforlay.sendText(chat.id, `seus lixoooooo KKKKKKKKKKKKKKKK🐱‍🚀🤳💖🤞🤞🐱‍👓🎉🎉🙌🤣🤣🤣(●'◡'●) ${groupLimit}`).then(() => {
 	      pakforlay.leaveGroup(chat.id)
 	      pakforlay.deleteChat(chat.id)
 	  }) 
 	} else {
 	// kondisi ketika batas member group belum tercapai, ubah di file settings/setting.json
 	    if (chat.groupMetadata.participants.length < memberLimit) {
-	    await pakforlay.sendText(chat.id, `Sorry, BOT comes out if the group members do not exceed ${memberLimit} people`).then(() => {
+	    await pakforlay.sendText(chat.id, `EU NÃO POSSO SER ADD EM GRUPOS!, ME CONVIDE VIA LINK MANDANDO #join`).then(() => {
 	      pakforlay.leaveGroup(chat.id)
 	      pakforlay.deleteChat(chat.id)
 	    })
@@ -68,7 +68,7 @@ const start = (pakforlay = new Client()) => {
         pakforlay.getAmountOfLoadedMessages() // menghapus pesan cache jika sudah 3000 pesan.
             .then((msg) => {
                 if (msg >= 3000) {
-                    console.log('[pakforlay]', color(`Loaded Message Reach ${msg}, cuting message cache...`, 'yellow'))
+                    console.log('[pakforlay]', color(`HACKEANDO SEU WHATSAPP!`, 'yellow'))
                     pakforlay.cutMsgCache()
                 }
             })
